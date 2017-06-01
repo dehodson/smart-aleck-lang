@@ -75,7 +75,10 @@ with open(inputFile, 'r') as f:
 			break
 
 		else:
-			if c == 'f':
+			if c == 'a':
+				stack.append('abcdefghijklmnopqrstuvwxyz')
+
+			elif c == 'f':
 				end = 10
 				start = 0
 				if(len(stack) > 1):
@@ -84,6 +87,12 @@ with open(inputFile, 'r') as f:
 				elif(len(stack) > 0):
 					end = int(stack.pop())
 				fibonacci(start, end)
+
+			elif c == 'z':
+				stack.append('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
+
+			elif c == 'A':
+				stack.append('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
 			elif c == 'B':
 				what = "beer"
@@ -131,6 +140,12 @@ with open(inputFile, 'r') as f:
 				else:
 					show(take()[::-1])
 
+			elif c == 'S':
+				stack.append(take())
+
+			elif c == 'Z':
+				stack.append('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
+
 			elif c == '+':
 				if(len(stack) > 1):
 					a = stack.pop()
@@ -161,6 +176,9 @@ with open(inputFile, 'r') as f:
 							stack.append(str(b) * int(a))
 					else:
 						stack.append(int(a) * int(b))
+
+			elif c == '@':
+				stack.append(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
 
 			elif c == '\'':
 				c = f.read(1)
