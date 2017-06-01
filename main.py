@@ -2,7 +2,8 @@
 import sys
 
 def fizzBuzz(start, finish):
-	for i in xrange(start, finish):
+	step = 1 if start <= finish else -1
+	for i in xrange(start, finish, step):
 		string = ""
 		if i % 3 == 0:
 			string += "Fizz"
@@ -30,14 +31,38 @@ if len(sys.argv) > 1:
 	inputFile = sys.argv[1]
 
 with open(inputFile, 'r') as f:
+	stack = []
+	skipRead = False
 	while True:
-		c = f.read(1)
+		if not skipRead:
+			c = f.read(1)
+		else:
+			skipRead = False
+
 		if not c:
 			break
 		else:
 			if c == 'B':
 				bottlesOfBeer(99)
 			elif c == 'F':
-				fizzBuzz(1, 101)
+				end = 101
+				start = 1
+				if(len(stack) > 1):
+					end = stack.pop()
+					start = stack.pop()
+				elif(len(stack) > 0):
+					end = stack.pop()
+				fizzBuzz(start, end)
 			elif c == 'H':
 				print "Hello, world!"
+			elif c in '0123456789':
+				stack.append(int(c))
+				while True:
+					c = f.read(1)
+					if not c:
+						break
+					if c in '0123456789':
+						stack[-1] = (stack[-1] * 10) + int(c)
+					else:
+						skipRead = True
+						break
