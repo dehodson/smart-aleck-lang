@@ -154,6 +154,8 @@ with open(inputFile, 'r') as f:
 						stack.append(str(a) + str(b))
 					else:
 						stack.append(int(a) + int(b))
+				elif(len(stack) > 0):
+					stack.append(take() + str(stack.pop()))
 
 			elif c == '-':
 				if(len(stack) > 1):
@@ -163,6 +165,9 @@ with open(inputFile, 'r') as f:
 						stack.append(a.translate(None, b))
 					else:
 						stack.append(int(a)-int(b))
+				elif(len(stack) > 0):
+					if(type(stack[-1]) == str):
+						stack.append(stack.pop().translate(None, take()))
 
 			elif c == '*':
 				if(len(stack) > 1):
@@ -176,6 +181,9 @@ with open(inputFile, 'r') as f:
 							stack.append(str(b) * int(a))
 					else:
 						stack.append(int(a) * int(b))
+				elif(len(stack) > 0):
+					if(type(stack[-1]) == int):
+						stack.append(take() * stack.pop())
 
 			elif c == '@':
 				stack.append(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
