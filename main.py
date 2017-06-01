@@ -8,18 +8,6 @@ def show(string):
 	hasPrinted = True
 	print string
 
-def fizzBuzz(start, finish):
-	step = 1 if start <= finish else -1
-	for i in xrange(start, finish, step):
-		string = ""
-		if i % 3 == 0:
-			string += "Fizz"
-		if i % 5 == 0:
-			string += "Buzz"
-		if string == "":
-			string += str(i)
-		show(string)
-
 def bottlesOfBeer(total, what):
 	ending = "Take one down, pass it around, "
 	line = "{0} bottle{1} of {2} on the wall, {0} bottle{1} of {2}."
@@ -32,6 +20,31 @@ def bottlesOfBeer(total, what):
 			show(ending + str(i - 1) + " bottles of "+what+" on the wall.")
 		else:
 			show("No more bottles of "+what+" on the wall!")
+
+def fibonacciGenerator():
+	a, b = 0, 1
+	while True:
+		yield a
+		a, b = b, a + b    
+
+def fibonacci(start, finish):
+	for k, v in enumerate(fibonacciGenerator()):
+		if k >= start:
+			show(v)
+		if k >= finish:
+			break
+
+def fizzBuzz(start, finish):
+	step = 1 if start <= finish else -1
+	for i in xrange(start, finish, step):
+		string = ""
+		if i % 3 == 0:
+			string += "Fizz"
+		if i % 5 == 0:
+			string += "Buzz"
+		if string == "":
+			string += str(i)
+		show(string)
 
 inputFile = "input.sa"
 if len(sys.argv) > 1:
@@ -50,7 +63,17 @@ with open(inputFile, 'r') as f:
 			break
 
 		else:
-			if c == 'B':
+			if c == 'f':
+				end = 10
+				start = 0
+				if(len(stack) > 1):
+					end = int(stack.pop())
+					start = int(stack.pop())
+				elif(len(stack) > 0):
+					end = int(stack.pop())
+				fibonacci(start, end)
+
+			elif c == 'B':
 				what = "beer"
 				num = 99
 				if(len(stack) > 1):
@@ -81,7 +104,8 @@ with open(inputFile, 'r') as f:
 				show("Hello, world!")
 
 			elif c == 'P':
-				show(stack.pop())
+				if(len(stack) > 0):
+					show(str(stack.pop()))
 
 			elif c == 'Q':
 				old = f.tell()
@@ -119,4 +143,5 @@ with open(inputFile, 'r') as f:
 						break
 
 if not hasPrinted:
-	show(str(stack[-1]))
+	if(len(stack) > 0):
+		show(str(stack[-1]))
