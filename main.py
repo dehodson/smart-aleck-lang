@@ -1,6 +1,13 @@
 
 import sys
 
+hasPrinted = False
+
+def show(string):
+	global hasPrinted
+	hasPrinted = True
+	print string
+
 def fizzBuzz(start, finish):
 	step = 1 if start <= finish else -1
 	for i in xrange(start, finish, step):
@@ -11,20 +18,20 @@ def fizzBuzz(start, finish):
 			string += "Buzz"
 		if string == "":
 			string += str(i)
-		print string
+		show(string)
 
-def bottlesOfBeer(total):
+def bottlesOfBeer(total, what):
 	ending = "Take one down, pass it around, "
-	line = "{0} bottle{1} of beer on the wall, {0} bottle{1} of beer."
+	line = "{0} bottle{1} of {2} on the wall, {0} bottle{1} of {2}."
 	for i in xrange(total, 0, -1):
 		s = "s" if i > 1 else ""
-		print line.format(i,s)
+		show(line.format(i,s,what))
 		if i == 2:
-			print ending + "1 bottle of beer on the wall."
+			show(ending + "1 bottle of "+what+" on the wall.")
 		elif i > 2:
-			print ending + str(i - 1) + " bottles of beer on the wall."
+			show(ending + str(i - 1) + " bottles of "+what+" on the wall.")
 		else:
-			print "No more bottles of beer on the wall!"
+			show("No more bottles of "+what+" on the wall!")
 
 inputFile = "input.sa"
 if len(sys.argv) > 1:
@@ -44,10 +51,21 @@ with open(inputFile, 'r') as f:
 
 		else:
 			if c == 'B':
+				what = "beer"
 				num = 99
-				if(len(stack) > 0):
+				if(len(stack) > 1):
+					what = str(stack.pop())
 					num = int(stack.pop())
-				bottlesOfBeer(num)
+				elif(len(stack) > 0):
+					var = stack.pop()
+					if(type(var) == str):
+						what = var
+					else:
+						num = int(var)
+				bottlesOfBeer(num, what)
+
+			elif c == 'C':
+				show(sys.stdin.read())
 
 			elif c == 'F':
 				end = 101
@@ -60,16 +78,22 @@ with open(inputFile, 'r') as f:
 				fizzBuzz(start, end)
 
 			elif c == 'H':
-				print "Hello, world!"
+				show("Hello, world!")
 
 			elif c == 'P':
-				print stack.pop()
+				show(stack.pop())
 
 			elif c == 'Q':
 				old = f.tell()
 				f.seek(0)
-				print f.read()
+				show(f.read())
 				f.seek(old)
+
+			elif c == 'R':
+				if(len(stack) > 0):
+					stack.append(str(stack.pop())[::-1])
+				else:
+					show(sys.stdin.read()[::-1])
 
 			elif c == '"':
 				stack.append("")
@@ -94,3 +118,5 @@ with open(inputFile, 'r') as f:
 						skipRead = True
 						break
 
+if not hasPrinted:
+	show(str(stack[-1]))
