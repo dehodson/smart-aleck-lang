@@ -72,6 +72,17 @@ def fizzBuzz(start, finish):
 			string += str(i)
 		show(string)
 
+def toRoman(num):
+	nums = [(1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'), (100, 'C'), (90, 'XC'),
+		(50, 'L'), (40, 'XL'), (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'), (1, 'I')]
+	roman = ''
+	while num > 0:
+		for i, r in nums:
+			while num >= i:
+				roman += r
+				num -= i
+	return roman
+
 inputFile = "input.sa"
 if len(sys.argv) > 1:
 	inputFile = sys.argv[1]
@@ -80,6 +91,8 @@ with open(inputFile, 'r') as f:
 	stack = []
 	skipRead = False
 	ignoreMode = False
+	looping = False
+	loopPos = 0
 
 	if '#' in f.read():
 		ignoreMode = True
@@ -87,175 +100,192 @@ with open(inputFile, 'r') as f:
 	f.seek(0)
 
 	while True:
-		if ignoreMode:
-			while True:
+		while True:
+			if ignoreMode:
+				while True:
+					c = f.read(1)
+					if not c:
+						break
+					if c == '#':
+						ignoreMode = False
+						break
+
+			if not skipRead:
 				c = f.read(1)
-				if not c:
-					break
-				if c == '#':
-					ignoreMode = False
-					break
+			else:
+				skipRead = False
 
-		if not skipRead:
-			c = f.read(1)
-		else:
-			skipRead = False
+			if not c:
+				break
 
-		if not c:
-			break
+			else:
+				if c == 'a':
+					stack.append('abcdefghijklmnopqrstuvwxyz')
 
-		else:
-			if c == 'a':
-				stack.append('abcdefghijklmnopqrstuvwxyz')
+				elif c == 'f':
+					end = 10
+					start = 0
+					if(len(stack) > 1):
+						end = int(stack.pop())
+						start = int(stack.pop())
+					elif(len(stack) > 0):
+						end = int(stack.pop())
+					fibonacci(start, end)
 
-			elif c == 'f':
-				end = 10
-				start = 0
-				if(len(stack) > 1):
-					end = int(stack.pop())
-					start = int(stack.pop())
-				elif(len(stack) > 0):
-					end = int(stack.pop())
-				fibonacci(start, end)
+				elif c == 'r':
+					if(len(stack) > 0):
+						stack.append(toRoman(int(stack.pop())))
 
-			elif c == 'z':
-				stack.append('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
+				elif c == 'z':
+					stack.append('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
 
-			elif c == 'A':
-				stack.append('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+				elif c == 'A':
+					stack.append('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
-			elif c == 'B':
-				what = "beer"
-				num = 99
-				if(len(stack) > 1):
-					what = str(stack.pop())
-					num = int(stack.pop())
-				elif(len(stack) > 0):
-					var = stack.pop()
-					if(type(var) == str):
-						what = var
-					else:
-						num = int(var)
-				bottlesOfBeer(num, what)
-
-			elif c == 'C':
-				show(take())
-
-			elif c == 'F':
-				end = 101
-				start = 1
-				if(len(stack) > 1):
-					end = int(stack.pop())
-					start = int(stack.pop())
-				elif(len(stack) > 0):
-					end = int(stack.pop())
-				fizzBuzz(start, end)
-
-			elif c == 'H':
-				show("Hello, world!")
-
-			elif c == 'P':
-				if(len(stack) > 0):
-					show(str(stack.pop()))
-
-			elif c == 'Q':
-				old = f.tell()
-				f.seek(0)
-				show(f.read())
-				f.seek(old)
-
-			elif c == 'R':
-				if(len(stack) > 0):
-					stack.append(str(stack.pop())[::-1])
-				else:
-					show(take()[::-1])
-
-			elif c == 'S':
-				stack.append(take())
-
-			elif c == 'Z':
-				stack.append('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
-
-			elif c == '+':
-				if(len(stack) > 1):
-					a = stack.pop()
-					b = stack.pop()
-					if(type(a) == str or type(b) == str):
-						stack.append(str(a) + str(b))
-					else:
-						stack.append(int(a) + int(b))
-				elif(len(stack) > 0):
-					stack.append(take() + str(stack.pop()))
-
-			elif c == '-':
-				if(len(stack) > 1):
-					a = stack.pop()
-					b = stack.pop()
-					if(type(a) == str and type(b) == str):
-						stack.append(a.translate(None, b))
-					else:
-						stack.append(int(a)-int(b))
-				elif(len(stack) > 0):
-					if(type(stack[-1]) == str):
-						stack.append(stack.pop().translate(None, take()))
-
-			elif c == '*':
-				if(len(stack) > 1):
-					a = stack.pop()
-					b = stack.pop()
-					if((type(a) == str or type(b) == str) and
-						(type(a) == int or type(b) == int)):
-						if(type(a) == str):
-							stack.append(str(a) * int(b))
+				elif c == 'B':
+					what = "beer"
+					num = 99
+					if(len(stack) > 1):
+						what = str(stack.pop())
+						num = int(stack.pop())
+					elif(len(stack) > 0):
+						var = stack.pop()
+						if(type(var) == str):
+							what = var
 						else:
-							stack.append(str(b) * int(a))
+							num = int(var)
+					bottlesOfBeer(num, what)
+
+				elif c == 'C':
+					show(take())
+
+				elif c == 'F':
+					end = 101
+					start = 1
+					if(len(stack) > 1):
+						end = int(stack.pop())
+						start = int(stack.pop())
+					elif(len(stack) > 0):
+						end = int(stack.pop())
+					fizzBuzz(start, end)
+
+				elif c == 'H':
+					show("Hello, world!")
+
+				elif c == 'L':
+					if(len(stack) > 0):
+						looping = True
+						loopPos = f.tell()
+
+				elif c == 'P':
+					if(len(stack) > 0):
+						show(str(stack.pop()))
+
+				elif c == 'Q':
+					old = f.tell()
+					f.seek(0)
+					show(f.read())
+					f.seek(old)
+
+				elif c == 'R':
+					if(len(stack) > 0):
+						stack.append(str(stack.pop())[::-1])
 					else:
-						stack.append(int(a) * int(b))
-				elif(len(stack) > 0):
-					if(type(stack[-1]) == int):
-						stack.append(take() * stack.pop())
+						show(take()[::-1])
 
-			elif c == '#':
-				ignoreMode = True
-
-			elif c == ':':
-				if(len(stack) > 0):
-					stack.append(stack[-1])
-				else:
-					stack.append(take())
+				elif c == 'S':
 					stack.append(take())
 
-			elif c == '@':
-				stack.append(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
+				elif c == 'Z':
+					stack.append('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
 
-			elif c == '\'':
-				c = f.read(1)
-				if not c:
-					break
-				stack.append(c)
+				elif c == '+':
+					if(len(stack) > 1):
+						a = stack.pop()
+						b = stack.pop()
+						if(type(a) == str or type(b) == str):
+							stack.append(str(a) + str(b))
+						else:
+							stack.append(int(a) + int(b))
+					elif(len(stack) > 0):
+						stack.append(take() + str(stack.pop()))
 
-			elif c == '"':
-				stack.append("")
-				while True:
+				elif c == '-':
+					if(len(stack) > 1):
+						a = stack.pop()
+						b = stack.pop()
+						if(type(a) == str and type(b) == str):
+							stack.append(a.translate(None, b))
+						else:
+							stack.append(int(a)-int(b))
+					elif(len(stack) > 0):
+						if(type(stack[-1]) == str):
+							stack.append(stack.pop().translate(None, take()))
+
+				elif c == '*':
+					if(len(stack) > 1):
+						a = stack.pop()
+						b = stack.pop()
+						if((type(a) == str or type(b) == str) and
+							(type(a) == int or type(b) == int)):
+							if(type(a) == str):
+								stack.append(str(a) * int(b))
+							else:
+								stack.append(str(b) * int(a))
+						else:
+							stack.append(int(a) * int(b))
+					elif(len(stack) > 0):
+						if(type(stack[-1]) == int):
+							stack.append(take() * stack.pop())
+
+				elif c == '#':
+					ignoreMode = True
+
+				elif c == ':':
+					if(len(stack) > 0):
+						stack.append(stack[-1])
+					else:
+						stack.append(take())
+						stack.append(take())
+
+				elif c == '@':
+					stack.append(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
+
+				elif c == '\'':
 					c = f.read(1)
 					if not c:
 						break
-					if c == '"':
-						break
-					else:
-						stack[-1] += c
+					stack.append(c)
 
-			elif c in '0123456789':
-				stack.append(int(c))
-				while True:
-					c = f.read(1)
-					if not c:
-						break
-					if c in '0123456789':
-						stack[-1] = (stack[-1] * 10) + int(c)
-					else:
-						skipRead = True
-						break
+				elif c == '"':
+					stack.append("")
+					while True:
+						c = f.read(1)
+						if not c:
+							break
+						if c == '"':
+							break
+						else:
+							stack[-1] += c
+
+				elif c in '0123456789':
+					stack.append(int(c))
+					while True:
+						c = f.read(1)
+						if not c:
+							break
+						if c in '0123456789':
+							stack[-1] = (stack[-1] * 10) + int(c)
+						else:
+							skipRead = True
+							break
+		if looping:
+			if(len(stack) > 0):
+				f.seek(loopPos)
+			else:
+				break
+		else:
+			break
 
 if not hasPrinted:
 	if(len(stack) > 0):
