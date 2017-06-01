@@ -136,6 +136,20 @@ with open(inputFile, 'r') as f:
 					if(len(stack) > 0):
 						stack.append(toRoman(int(stack.pop())))
 
+				elif c == 'l':
+					if(len(stack) > 0):
+						num = int(stack.pop())
+						for i in xrange(1, num):
+							stack.append(i)
+
+				elif c == 'n':
+					if(len(stack) > 1):
+						index = int(stack.pop())
+						stack.append(stack.pop(len(stack) - index))
+
+				elif c == 'x':
+					stack.reverse()
+
 				elif c == 'z':
 					stack.append('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
 
@@ -176,6 +190,11 @@ with open(inputFile, 'r') as f:
 					if(len(stack) > 0):
 						looping = True
 						loopPos = f.tell()
+
+				elif c == 'N':
+					if(len(stack) > 1):
+						index = int(stack.pop())
+						stack.append(stack.pop(len(stack)))
 
 				elif c == 'P':
 					if(len(stack) > 0):
