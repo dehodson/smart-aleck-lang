@@ -4,6 +4,7 @@ import sys
 hasPrinted = False
 hasRead = False
 stdin = ""
+pointer = 0
 
 def show(string):
 	global hasPrinted
@@ -19,6 +20,19 @@ def take():
 		hasRead = True
 
 	return stdin
+
+def takeInt():
+	global stdin
+	global hasRead
+	global pointer
+
+	if not hasRead:
+		stdin = sys.stdin.read()
+		hasRead = True
+
+	char = stdin[pointer]
+	while char not in '-0123456789':
+		pointer += 1
 
 def bottlesOfBeer(total, what):
 	ending = "Take one down, pass it around, "
@@ -65,7 +79,23 @@ if len(sys.argv) > 1:
 with open(inputFile, 'r') as f:
 	stack = []
 	skipRead = False
+	ignoreMode = False
+
+	if '#' in f.read():
+		ignoreMode = True
+
+	f.seek(0)
+
 	while True:
+		if ignoreMode:
+			while True:
+				c = f.read(1)
+				if not c:
+					break
+				if c == '#':
+					ignoreMode = False
+					break
+
 		if not skipRead:
 			c = f.read(1)
 		else:
@@ -184,6 +214,16 @@ with open(inputFile, 'r') as f:
 				elif(len(stack) > 0):
 					if(type(stack[-1]) == int):
 						stack.append(take() * stack.pop())
+
+			elif c == '#':
+				ignoreMode = True
+
+			elif c == ':':
+				if(len(stack) > 0):
+					stack.append(stack[-1])
+				else:
+					stack.append(take())
+					stack.append(take())
 
 			elif c == '@':
 				stack.append(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
