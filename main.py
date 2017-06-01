@@ -2,11 +2,23 @@
 import sys
 
 hasPrinted = False
+hasRead = False
+stdin = ""
 
 def show(string):
 	global hasPrinted
 	hasPrinted = True
 	print string
+
+def take():
+	global stdin
+	global hasRead
+
+	if not hasRead:
+		stdin = sys.stdin.read()
+		hasRead = True
+
+	return stdin
 
 def bottlesOfBeer(total, what):
 	ending = "Take one down, pass it around, "
@@ -88,7 +100,7 @@ with open(inputFile, 'r') as f:
 				bottlesOfBeer(num, what)
 
 			elif c == 'C':
-				show(sys.stdin.read())
+				show(take())
 
 			elif c == 'F':
 				end = 101
@@ -117,7 +129,44 @@ with open(inputFile, 'r') as f:
 				if(len(stack) > 0):
 					stack.append(str(stack.pop())[::-1])
 				else:
-					show(sys.stdin.read()[::-1])
+					show(take()[::-1])
+
+			elif c == '+':
+				if(len(stack) > 1):
+					a = stack.pop()
+					b = stack.pop()
+					if(type(a) == str or type(b) == str):
+						stack.append(str(a) + str(b))
+					else:
+						stack.append(int(a) + int(b))
+
+			elif c == '-':
+				if(len(stack) > 1):
+					a = stack.pop()
+					b = stack.pop()
+					if(type(a) == str and type(b) == str):
+						stack.append(a.translate(None, b))
+					else:
+						stack.append(int(a)-int(b))
+
+			elif c == '*':
+				if(len(stack) > 1):
+					a = stack.pop()
+					b = stack.pop()
+					if((type(a) == str or type(b) == str) and
+						(type(a) == int or type(b) == int)):
+						if(type(a) == str):
+							stack.append(str(a) * int(b))
+						else:
+							stack.append(str(b) * int(a))
+					else:
+						stack.append(int(a) * int(b))
+
+			elif c == '\'':
+				c = f.read(1)
+				if not c:
+					break
+				stack.append(c)
 
 			elif c == '"':
 				stack.append("")
