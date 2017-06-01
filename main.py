@@ -41,12 +41,14 @@ with open(inputFile, 'r') as f:
 
 		if not c:
 			break
+
 		else:
 			if c == 'B':
 				num = 99
 				if(len(stack) > 0):
 					num = int(stack.pop())
 				bottlesOfBeer(num)
+
 			elif c == 'F':
 				end = 101
 				start = 1
@@ -56,10 +58,19 @@ with open(inputFile, 'r') as f:
 				elif(len(stack) > 0):
 					end = int(stack.pop())
 				fizzBuzz(start, end)
+
 			elif c == 'H':
 				print "Hello, world!"
+
 			elif c == 'P':
 				print stack.pop()
+
+			elif c == 'Q':
+				old = f.tell()
+				f.seek(0)
+				print f.read()
+				f.seek(old)
+
 			elif c == '"':
 				stack.append("")
 				while True:
@@ -70,6 +81,7 @@ with open(inputFile, 'r') as f:
 						break
 					else:
 						stack[-1] += c
+
 			elif c in '0123456789':
 				stack.append(int(c))
 				while True:
