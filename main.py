@@ -204,9 +204,6 @@ with open(inputFile, 'r') as f:
 							num = int(var)
 					bottlesOfBeer(num, what)
 
-				elif c == 'C':
-					show(take())
-
 				elif c == 'F':
 					end = 101
 					start = 1
@@ -424,3 +421,5 @@ if not hasPrinted:
 				show(str(i))
 		else:
 			show(str(stack.pop()))
+	else:
+		show(take())

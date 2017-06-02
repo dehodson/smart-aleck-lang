@@ -30,7 +30,7 @@ z - push the string '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvw
 
 A - push the string 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' (uppercase letters)
 B - 99 bottles of beer program will be printed
-C - print stdin (Cat program)
+C - 
 D -
 E -
 F - FizzBuzz will be printed
