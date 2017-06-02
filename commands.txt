@@ -12,7 +12,7 @@ h -
 i - read an integer from stdin
 j -
 k -
-l - pop an int, push numbers from 0 to that number
+l - pop an int, push a list containing numbers from 0 to that int
 m -
 n - pop item n from the last of the stack and push back on
 o -
@@ -39,7 +39,7 @@ H - prints 'Hello, world!'
 I -
 J -
 K -
-L - starts looping
+L - loop unless stack is empty
 M -
 N - pop item n from the start of the stack and push back on
 O -
@@ -47,7 +47,7 @@ P - pop from stack and print
 Q - print the program (any program with only one Q is a Quine)
 R - pop and reverse string, then push back on. If stack is empty, reverse stdin and print
 S - push stdin to the stack
-T - loop if the top value of the stack is truthy
+T - loop if stack is not empty and the top value is truthy
 U -
 V -
 W -
@@ -62,6 +62,7 @@ Z - push the string 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' to th
 # - if present, all code not between sets of # will be ignored
 $ - pop and discard
 : - pop a, push a and a (duplicate top of stack)
+\ - pop a and b, push a and b (swap top two items of stack)
 @ - push " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~" (all visible ASCII characters)
 ' - push the string representation of the next character
 " - string

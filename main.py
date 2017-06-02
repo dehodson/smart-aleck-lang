@@ -158,8 +158,7 @@ with open(inputFile, 'r') as f:
 				elif c == 'l':
 					if(len(stack) > 0):
 						num = int(stack.pop())
-						for i in xrange(1, num):
-							stack.append(i)
+						stack.append(range(0, num))
 
 				elif c == 'n':
 					if(len(stack) > 1):
@@ -227,7 +226,12 @@ with open(inputFile, 'r') as f:
 
 				elif c == 'P':
 					if(len(stack) > 0):
-						show(str(stack.pop()))
+						if(type(stack[-1]) == list):
+							a = stack.pop()
+							for i in a:
+								show(str(i))
+						else:
+							show(str(stack.pop()))
 
 				elif c == 'Q':
 					old = f.tell()
@@ -255,15 +259,6 @@ with open(inputFile, 'r') as f:
 							if c in '}':
 								break
 
-				elif c == 'X':
-					if looping:
-						if(len(stack) > 0):
-							f.seek(loopPos[-1])
-						else:
-							loopPos.pop()
-							if(len(loopPos) == 0):
-								looping = False
-
 				elif c == 'Z':
 					stack.append('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
 
@@ -271,7 +266,18 @@ with open(inputFile, 'r') as f:
 					if(len(stack) > 1):
 						a = stack.pop()
 						b = stack.pop()
-						if(type(a) == str or type(b) == str):
+						if(type(a) == list or type(b) == list):
+							if(type(a) == list and type(b) == list):
+								stack.append([i + j for i, j in zip(a, b)])
+							elif(type(a) == list and type(b) == str):
+								stack.append([str(i) + b for i in a])
+							elif(type(a) == str and type(b) == list):
+								stack.append([a + str(i) for i in b])
+							elif(type(a) == list and type(b) == int):
+								stack.append([int(i) + b for i in a])
+							elif(type(a) == int and type(b) == list):
+								stack.append([int(i) + a for i in b])
+						elif(type(a) == str or type(b) == str):
 							stack.append(str(a) + str(b))
 						else:
 							stack.append(int(a) + int(b))
@@ -294,7 +300,18 @@ with open(inputFile, 'r') as f:
 					if(len(stack) > 1):
 						a = stack.pop()
 						b = stack.pop()
-						if((type(a) == str or type(b) == str) and
+						if(type(a) == list or type(b) == list):
+							if(type(a) == list and type(b) == list):
+								stack.append([i * j for i, j in zip(a, b)])
+							elif(type(a) == list and type(b) == str):
+								stack.append([int(i) * b for i in a])
+							elif(type(a) == str and type(b) == list):
+								stack.append([a * int(i) for i in b])
+							elif(type(a) == list and type(b) == int):
+								stack.append([i * b for i in a])
+							elif(type(a) == int and type(b) == list):
+								stack.append([i * a for i in b])
+						elif((type(a) == str or type(b) == str) and
 							(type(a) == int or type(b) == int)):
 							if(type(a) == str):
 								stack.append(str(a) * int(b))
@@ -322,6 +339,12 @@ with open(inputFile, 'r') as f:
 
 				elif c == '@':
 					stack.append(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
+
+				elif c == '\\':
+					a = stack.pop()
+					b = stack.pop()
+					stack.append(a)
+					stack.append(b)
 
 				elif c == '}':
 					if len(loopPos) > 0:
@@ -363,4 +386,9 @@ with open(inputFile, 'r') as f:
 
 if not hasPrinted:
 	if(len(stack) > 0):
-		show(str(stack[-1]))
+		if(type(stack[-1]) == list):
+			a = stack.pop()
+			for i in a:
+				show(str(i))
+		else:
+			show(str(stack.pop()))
