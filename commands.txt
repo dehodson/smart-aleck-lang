@@ -51,7 +51,7 @@ T - loop if the top value of the stack is truthy
 U -
 V -
 W -
-X - loop if the stack is not empty
+X - 
 Y -
 Z - push the string 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' to the stack (upper and lowercase letters)
 
@@ -65,5 +65,6 @@ $ - pop and discard
 @ - push " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~" (all visible ASCII characters)
 ' - push the string representation of the next character
 " - string
+} - end conditional
 
 0123456789 - number literals

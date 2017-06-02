@@ -210,8 +210,15 @@ with open(inputFile, 'r') as f:
 					show("Hello, world!")
 
 				elif c == 'L':
-					looping = True
-					loopPos.append(f.tell())
+					if(len(stack) > 0):
+						loopPos.append(f.tell() - 1)
+					else:
+						while True:
+							c = f.read(1)
+							if not c:
+								break
+							if c in '}':
+								break
 
 				elif c == 'N':
 					if(len(stack) > 1):
@@ -238,18 +245,15 @@ with open(inputFile, 'r') as f:
 					stack.append(take())
 
 				elif c == 'T':
-					if looping:
-						if(len(stack) > 0):
-							if(stack[-1]):
-								f.seek(loopPos[-1])
-							else:
-								loopPos.pop()
-								if(len(loopPos) == 0):
-									looping = False
-						else:
-							loopPos.pop()
-							if(len(loopPos) == 0):
-								looping = False
+					if(len(stack) > 0 and stack[-1]):
+						loopPos.append(f.tell() - 1)
+					else:
+						while True:
+							c = f.read(1)
+							if not c:
+								break
+							if c in '}':
+								break
 
 				elif c == 'X':
 					if looping:
@@ -319,6 +323,10 @@ with open(inputFile, 'r') as f:
 				elif c == '@':
 					stack.append(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
 
+				elif c == '}':
+					if len(loopPos) > 0:
+						f.seek(loopPos.pop())
+
 				elif c == '\'':
 					c = f.read(1)
 					if not c:
@@ -347,16 +355,9 @@ with open(inputFile, 'r') as f:
 						else:
 							skipRead = True
 							break
-		if looping:
-			if(len(stack) > 0):
-				f.seek(loopPos[-1])
-			else:
-				loopPos.pop()
-				if(len(loopPos) == 0):
-					looping = False
-					break
-				else:
-					f.seek(loopPos[-1])
+
+		if len(loopPos) > 0:
+			f.seek(loopPos.pop())
 		else:
 			break
 
