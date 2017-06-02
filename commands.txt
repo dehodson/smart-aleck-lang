@@ -36,7 +36,7 @@ E -
 F - FizzBuzz will be printed
 G -
 H - prints 'Hello, world!'
-I -
+I - read all ints from stdin, push a list containing them to the stack
 J -
 K -
 L - loop unless stack is empty
@@ -45,7 +45,7 @@ N - pop item n from the start of the stack and push back on
 O -
 P - pop from stack and print
 Q - print the program (any program with only one Q is a Quine)
-R - pop and reverse string, then push back on. If stack is empty, reverse stdin and print
+R - pop and reverse string or list, then push back on. If stack is empty, reverse stdin and append
 S - push stdin to the stack
 T - loop if stack is not empty and the top value is truthy
 U -

@@ -74,11 +74,13 @@ def fibonacciGenerator():
 		a, b = b, a + b    
 
 def fibonacci(start, finish):
+	numbers = []
 	for k, v in enumerate(fibonacciGenerator()):
 		if k >= start:
-			show(v)
+			numbers.append(v)
 		if k >= finish:
 			break
+	return numbers
 
 def fizzBuzz(start, finish):
 	step = 1 if start <= finish else -1
@@ -162,7 +164,7 @@ with open(inputFile, 'r') as f:
 						start = int(stack.pop())
 					elif(len(stack) > 0):
 						end = int(stack.pop())
-					fibonacci(start, end)
+					stack.append(fibonacci(start, end))
 
 				elif c == 'i':
 					stack.append(takeInt())
@@ -215,7 +217,18 @@ with open(inputFile, 'r') as f:
 					fizzBuzz(start, end)
 
 				elif c == 'H':
-					show("Hello, world!")
+					stack.append("Hello, world!")
+
+				elif c == 'I':
+					numbers = []
+					if hasRead:
+						while pointer < len(stdin) - 1:
+							numbers.append(takeInt())
+					else:
+						numbers.append(takeInt())
+						while pointer < len(stdin) - 1:
+							numbers.append(takeInt())
+					stack.append(numbers)
 
 				elif c == 'L':
 					if(len(stack) > 0):
@@ -250,9 +263,12 @@ with open(inputFile, 'r') as f:
 
 				elif c == 'R':
 					if(len(stack) > 0):
-						stack.append(str(stack.pop())[::-1])
+						if(type(stack[-1]) == list):
+							stack.append(stack.pop()[::-1])
+						else:
+							stack.append(str(stack.pop())[::-1])
 					else:
-						show(take()[::-1])
+						stack.append(take()[::-1])
 
 				elif c == 'S':
 					stack.append(take())
@@ -297,7 +313,18 @@ with open(inputFile, 'r') as f:
 					if(len(stack) > 1):
 						a = stack.pop()
 						b = stack.pop()
-						if(type(a) == str and type(b) == str):
+						if(type(a) == list or type(b) == list):
+							if(type(a) == list and type(b) == list):
+								stack.append([i - j for i, j in zip(a, b)])
+							elif(type(a) == list and type(b) == str):
+								stack.append([str(i).translate(None, b) for i in a])
+							elif(type(a) == str and type(b) == list):
+								stack.append([str(i).translate(None, a) for i in b])
+							elif(type(a) == list and type(b) == int):
+								stack.append([i - b for i in a])
+							elif(type(a) == int and type(b) == list):
+								stack.append([i - a for i in b])
+						elif(type(a) == str and type(b) == str):
 							stack.append(a.translate(None, b))
 						else:
 							stack.append(int(a)-int(b))
