@@ -1,0 +1,68 @@
+
+List of smart-aleck commands:
+
+a - push the string 'abcdefghijklmnopqrstuvwxyz' to the stack (lowercase letters)
+b -
+c -
+d -
+e -
+f - print the first 10 fibonacci numbers
+g -
+h -
+i - read an integer from stdin
+j -
+k -
+l - pop an int, push numbers from 0 to that number
+m -
+n - pop item n from the last of the stack and push back on
+o -
+p -
+q -
+r - pop from the stack, convert to roman numeral and push back on
+s -
+t -
+u -
+v -
+w -
+x - reverse the stack
+y -
+z - push the string '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' to the stack (alphanumerics)
+
+A - push the string 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' (uppercase letters)
+B - 99 bottles of beer program will be printed
+C - print stdin (Cat program)
+D -
+E -
+F - FizzBuzz will be printed
+G -
+H - prints 'Hello, world!'
+I -
+J -
+K -
+L - starts looping until the stack is empty
+M -
+N - pop item n from the start of the stack and push back on
+O -
+P - pop from stack and print
+Q - print the program (any program with only one Q is a Quine)
+R - pop and reverse string, then push back on. If stack is empty, reverse stdin and print
+S - push stdin to the stack
+T - 
+U -
+V -
+W -
+X -
+Y -
+Z - push the string 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' to the stack (upper and lowercase letters)
+
++ - pop a and b, add them and push back (will concatenate strings)
+- - pop a and b, subtract b from a and push back (if performed on strings, will remove all characters from b from a)
+* - pop a and b, multiply and push back (will repeat strings if multiplied)
+
+# - if present, all code not between sets of # will be ignored
+: - pop a, push a and a (duplicate top of stack)
+@ - push " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~" (all visible ASCII characters)
+' - push the string representation of the next character
+" - string
+
+0123456789 - number literals

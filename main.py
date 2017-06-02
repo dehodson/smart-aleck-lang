@@ -26,13 +26,33 @@ def takeInt():
 	global hasRead
 	global pointer
 
+	negative = False
+	output = 0
+
 	if not hasRead:
 		stdin = sys.stdin.read()
 		hasRead = True
 
 	char = stdin[pointer]
-	while char not in '-0123456789':
+	while char not in '0123456789' and pointer < (len(stdin) - 1):
 		pointer += 1
+		char = stdin[pointer]
+
+	if pointer != 0 and stdin[pointer - 1] == "-":
+		negative = True
+
+	while pointer < (len(stdin) - 1):
+		char = stdin[pointer]
+		if char in '0123456789':
+			output = output * 10 + int(char)
+		else:
+			break
+		pointer += 1
+
+	if negative:
+		output *= -1
+
+	return output
 
 def bottlesOfBeer(total, what):
 	ending = "Take one down, pass it around, "
@@ -132,9 +152,8 @@ with open(inputFile, 'r') as f:
 						end = int(stack.pop())
 					fibonacci(start, end)
 
-				elif c == 'r':
-					if(len(stack) > 0):
-						stack.append(toRoman(int(stack.pop())))
+				elif c == 'i':
+					stack.append(takeInt())
 
 				elif c == 'l':
 					if(len(stack) > 0):
@@ -146,6 +165,10 @@ with open(inputFile, 'r') as f:
 					if(len(stack) > 1):
 						index = int(stack.pop())
 						stack.append(stack.pop(len(stack) - index))
+
+				elif c == 'r':
+					if(len(stack) > 0):
+						stack.append(toRoman(int(stack.pop())))
 
 				elif c == 'x':
 					stack.reverse()
@@ -268,7 +291,7 @@ with open(inputFile, 'r') as f:
 						stack.append(take())
 
 				elif c == '@':
-					stack.append(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
+					stack.append(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
 
 				elif c == '\'':
 					c = f.read(1)
