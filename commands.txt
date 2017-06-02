@@ -35,7 +35,7 @@ D -
 E -
 F - FizzBuzz will be printed
 G -
-H - prints 'Hello, world!'
+H - push the string 'Hello, world!'
 I - read all ints from stdin, push a list containing them to the stack
 J -
 K -
@@ -61,9 +61,11 @@ Z - push the string 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' to th
 
 # - if present, all code not between sets of # will be ignored
 $ - pop and discard
+% - pop a, b, push a mod b
 : - pop a, push a and a (duplicate top of stack)
 = - push (top of stack == 2nd from top), if there is only one item on stack compares STDIN
 \ - pop a and b, push a and b (swap top two items of stack)
+_ - flatten list
 , - convert a to or from char code
 . - concatenate all items in list, or all strings on top of the stack
 @ - push " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~" (all visible ASCII characters)

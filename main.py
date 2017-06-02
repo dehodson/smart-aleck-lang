@@ -5,6 +5,7 @@ hasPrinted = False
 hasRead = False
 stdin = ""
 pointer = 0
+loopTypes = "TL"
 
 def show(string):
 	global hasPrinted
@@ -234,12 +235,18 @@ with open(inputFile, 'r') as f:
 					if(len(stack) > 0):
 						loopPos.append(f.tell() - 1)
 					else:
+						balance = 0
 						while True:
 							c = f.read(1)
 							if not c:
 								break
 							if c in '}':
-								break
+								if balance == 0:
+									break
+								else:
+									balance -= 1
+							elif c in loopTypes:
+								balance += 1
 
 				elif c == 'N':
 					if(len(stack) > 1):
@@ -277,12 +284,18 @@ with open(inputFile, 'r') as f:
 					if(len(stack) > 0 and stack[-1]):
 						loopPos.append(f.tell() - 1)
 					else:
+						balance = 0
 						while True:
 							c = f.read(1)
 							if not c:
 								break
 							if c in '}':
-								break
+								if balance == 0:
+									break
+								else:
+									balance -= 1
+							elif c in loopTypes:
+								balance += 1
 
 				elif c == 'Z':
 					stack.append('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
@@ -366,6 +379,18 @@ with open(inputFile, 'r') as f:
 					if(len(stack) > 0):
 						stack.pop()
 
+				elif c == '%':
+					if(len(stack) > 1):
+						a = stack.pop()
+						b = stack.pop()
+						if(type(a) == list or type(b) == list):
+							if(type(a) == list and type(b) == int):
+								stack.append([i % b for i in a])
+							elif(type(a) == int and type(b) == list):
+								stack.append([i % a for i in b])
+						else:
+							stack.append(a % b);
+
 				elif c == ',':
 					if(len(stack) > 0):
 						stack.append(toggleChar(stack.pop()))
@@ -397,10 +422,17 @@ with open(inputFile, 'r') as f:
 					stack.append(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
 
 				elif c == '\\':
-					a = stack.pop()
-					b = stack.pop()
-					stack.append(a)
-					stack.append(b)
+					if(len(stack) > 1):
+						a = stack.pop()
+						b = stack.pop()
+						stack.append(a)
+						stack.append(b)
+
+				elif c == '_':
+					if(len(stack) > 0):
+						if(type(stack[-1]) == list):
+							for i in stack.pop():
+								stack.append(i)
 
 				elif c == '}':
 					if len(loopPos) > 0:
