@@ -112,7 +112,7 @@ with open(inputFile, 'r') as f:
 	skipRead = False
 	ignoreMode = False
 	looping = False
-	loopPos = 0
+	loopPos = []
 
 	if '#' in f.read():
 		ignoreMode = True
@@ -212,12 +212,12 @@ with open(inputFile, 'r') as f:
 				elif c == 'L':
 					if(len(stack) > 0):
 						looping = True
-						loopPos = f.tell()
+						loopPos.append(f.tell())
 
 				elif c == 'N':
 					if(len(stack) > 1):
 						index = int(stack.pop())
-						stack.append(stack.pop(len(stack)))
+						stack.append(stack.pop(index))
 
 				elif c == 'P':
 					if(len(stack) > 0):
@@ -237,6 +237,15 @@ with open(inputFile, 'r') as f:
 
 				elif c == 'S':
 					stack.append(take())
+
+				elif c == 'X':
+					if looping:
+						if(len(stack) > 0):
+							f.seek(loopPos[-1])
+						else:
+							loopPos.pop()
+							if(len(loopPos) == 0):
+								looping = False
 
 				elif c == 'Z':
 					stack.append('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
@@ -283,6 +292,10 @@ with open(inputFile, 'r') as f:
 				elif c == '#':
 					ignoreMode = True
 
+				elif c == '$':
+					if(len(stack) > 0):
+						stack.pop()
+
 				elif c == ':':
 					if(len(stack) > 0):
 						stack.append(stack[-1])
@@ -323,9 +336,14 @@ with open(inputFile, 'r') as f:
 							break
 		if looping:
 			if(len(stack) > 0):
-				f.seek(loopPos)
+				f.seek(loopPos[-1])
 			else:
-				break
+				loopPos.pop()
+				if(len(loopPos) == 0):
+					looping = False
+					break
+				else:
+					f.seek(loopPos[-1])
 		else:
 			break
 

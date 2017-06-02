@@ -39,7 +39,7 @@ H - prints 'Hello, world!'
 I -
 J -
 K -
-L - starts looping until the stack is empty
+L - starts looping
 M -
 N - pop item n from the start of the stack and push back on
 O -
@@ -51,7 +51,7 @@ T -
 U -
 V -
 W -
-X -
+X - loop if the stack is not empty
 Y -
 Z - push the string 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' to the stack (upper and lowercase letters)
 
@@ -60,6 +60,7 @@ Z - push the string 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' to th
 * - pop a and b, multiply and push back (will repeat strings if multiplied)
 
 # - if present, all code not between sets of # will be ignored
+$ - pop and discard
 : - pop a, push a and a (duplicate top of stack)
 @ - push " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~" (all visible ASCII characters)
 ' - push the string representation of the next character
