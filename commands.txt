@@ -62,7 +62,10 @@ Z - push the string 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz' to th
 # - if present, all code not between sets of # will be ignored
 $ - pop and discard
 : - pop a, push a and a (duplicate top of stack)
+= - push (top of stack == 2nd from top), if there is only one item on stack compares STDIN
 \ - pop a and b, push a and b (swap top two items of stack)
+, - convert a to or from char code
+. - concatenate all items in list, or all strings on top of the stack
 @ - push " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~" (all visible ASCII characters)
 ' - push the string representation of the next character
 " - string

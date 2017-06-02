@@ -19,7 +19,7 @@ def take():
 		stdin = sys.stdin.read()
 		hasRead = True
 
-	return stdin
+	return stdin.rstrip()
 
 def takeInt():
 	global stdin
@@ -92,6 +92,17 @@ def fizzBuzz(start, finish):
 			string += str(i)
 		show(string)
 
+def toggleChar(what):
+	if(type(what) == int):
+		return chr(what)
+	elif(type(what) == str):
+		if(len(what) == 1):
+			return ord(what)
+		else:
+			return [ord(c) for c in what]
+	elif(type(what) == list):
+		return [toggleChar(c) for c in what]
+
 def toRoman(num):
 	nums = [(1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'), (100, 'C'), (90, 'XC'),
 		(50, 'L'), (40, 'XL'), (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'), (1, 'I')]
@@ -121,6 +132,7 @@ with open(inputFile, 'r') as f:
 
 	while True:
 		while True:
+			#print stack
 			if ignoreMode:
 				while True:
 					c = f.read(1)
@@ -330,12 +342,32 @@ with open(inputFile, 'r') as f:
 					if(len(stack) > 0):
 						stack.pop()
 
+				elif c == ',':
+					if(len(stack) > 0):
+						stack.append(toggleChar(stack.pop()))
+
+				elif c == '.':
+					if(len(stack) > 0):
+						if(type(stack[-1]) == list):
+							stack.append(''.join(str(i) for i in stack.pop()))
+						elif(type(stack[-1]) == str):
+							strings = []
+							while(len(stack) > 0 and type(stack[-1]) == str):
+								strings.append(stack.pop())
+							stack.append(''.join(strings))
+
 				elif c == ':':
 					if(len(stack) > 0):
 						stack.append(stack[-1])
 					else:
 						stack.append(take())
 						stack.append(take())
+
+				elif c == '=':
+					if(len(stack) > 1):
+						stack.append(stack[-1] == stack[-2])
+					elif(len(stack) > 0):
+						stack.append(stack[-1] == take())
 
 				elif c == '@':
 					stack.append(" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
