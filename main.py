@@ -210,9 +210,8 @@ with open(inputFile, 'r') as f:
 					show("Hello, world!")
 
 				elif c == 'L':
-					if(len(stack) > 0):
-						looping = True
-						loopPos.append(f.tell())
+					looping = True
+					loopPos.append(f.tell())
 
 				elif c == 'N':
 					if(len(stack) > 1):
@@ -237,6 +236,20 @@ with open(inputFile, 'r') as f:
 
 				elif c == 'S':
 					stack.append(take())
+
+				elif c == 'T':
+					if looping:
+						if(len(stack) > 0):
+							if(stack[-1]):
+								f.seek(loopPos[-1])
+							else:
+								loopPos.pop()
+								if(len(loopPos) == 0):
+									looping = False
+						else:
+							loopPos.pop()
+							if(len(loopPos) == 0):
+								looping = False
 
 				elif c == 'X':
 					if looping:

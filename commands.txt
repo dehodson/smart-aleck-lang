@@ -47,7 +47,7 @@ P - pop from stack and print
 Q - print the program (any program with only one Q is a Quine)
 R - pop and reverse string, then push back on. If stack is empty, reverse stdin and print
 S - push stdin to the stack
-T - 
+T - loop if the top value of the stack is truthy
 U -
 V -
 W -
