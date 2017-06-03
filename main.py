@@ -135,7 +135,7 @@ with open(inputFile, 'r') as f:
 
 	while True:
 		while True:
-			#print stack
+
 			if ignoreMode:
 				while True:
 					c = f.read(1)
@@ -154,6 +154,8 @@ with open(inputFile, 'r') as f:
 				break
 
 			else:
+				#print repr(loopPos)+repr(stack)+": "+c
+
 				if c == 'a':
 					stack.append('abcdefghijklmnopqrstuvwxyz')
 
@@ -179,6 +181,14 @@ with open(inputFile, 'r') as f:
 					if(len(stack) > 1):
 						index = int(stack.pop())
 						stack.append(stack.pop(len(stack) - index))
+
+				elif c == 'o':
+					if(len(stack) > 0):
+						if(type(stack[-1]) == list):
+							for i in stack[-1]:
+								show(i)
+						else:
+							show(str(stack[-1]))
 
 				elif c == 'r':
 					if(len(stack) > 0):

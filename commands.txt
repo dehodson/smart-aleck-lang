@@ -15,7 +15,7 @@ k -
 l - pop an int, push a list containing numbers from 0 to that int
 m -
 n - pop item n from the last of the stack and push back on
-o -
+o - print top item of stack without popping
 p -
 q -
 r - pop from the stack, convert to roman numeral and push back on
