@@ -1,5 +1,7 @@
+# -*- coding: cp437 -*-
 
 import sys
+import math
 
 hasPrinted = False
 hasRead = False
@@ -155,7 +157,7 @@ with open(inputFile, 'r') as f:
 
 			else:
 				#print repr(loopPos)+repr(stack)+": "+c
-
+				
 				if c == 'a':
 					stack.append('abcdefghijklmnopqrstuvwxyz')
 
@@ -464,6 +466,18 @@ with open(inputFile, 'r') as f:
 							break
 						else:
 							stack[-1] += c
+
+				elif c == "ã":
+					stack.append(math.pi)
+
+				elif c == "ý":
+					if(len(stack) > 0):
+						if(type(stack[-1]) == int):
+							a = stack.pop()
+							stack.append(a * a)
+						elif(type(stack[-1]) == list):
+							a = stack.pop()
+							stack.append([b * b for b in a])
 
 				elif c in '0123456789':
 					stack.append(int(c))
