@@ -192,6 +192,9 @@ with open(inputFile, 'r') as f:
 						else:
 							show(str(stack[-1]))
 
+				elif c == 'p':
+					stack.append(math.pi)
+
 				elif c == 'r':
 					if(len(stack) > 0):
 						stack.append(toRoman(int(stack.pop())))
@@ -330,7 +333,7 @@ with open(inputFile, 'r') as f:
 						elif(type(a) == str or type(b) == str):
 							stack.append(str(a) + str(b))
 						else:
-							stack.append(int(a) + int(b))
+							stack.append(a + b)
 					elif(len(stack) > 0):
 						stack.append(take() + str(stack.pop()))
 
@@ -379,7 +382,7 @@ with open(inputFile, 'r') as f:
 							else:
 								stack.append(str(b) * int(a))
 						else:
-							stack.append(int(a) * int(b))
+							stack.append(a * b)
 					elif(len(stack) > 0):
 						if(type(stack[-1]) == int):
 							stack.append(take() * stack.pop())
@@ -467,10 +470,7 @@ with open(inputFile, 'r') as f:
 						else:
 							stack[-1] += c
 
-				elif c == "\xe3": #pi
-					stack.append(math.pi)
-
-				elif c == "\xfd": #square
+				elif c == "\xb2": #square
 					if(len(stack) > 0):
 						if(type(stack[-1]) in numerics):
 							a = stack.pop()
