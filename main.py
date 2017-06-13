@@ -1,4 +1,3 @@
-# -*- coding: cp437 -*-
 
 import sys
 import math
@@ -467,10 +466,10 @@ with open(inputFile, 'r') as f:
 						else:
 							stack[-1] += c
 
-				elif c == "ã":
+				elif c == "\xe3": #pi
 					stack.append(math.pi)
 
-				elif c == "ý":
+				elif c == "\xfd": #square
 					if(len(stack) > 0):
 						if(type(stack[-1]) == int):
 							a = stack.pop()
