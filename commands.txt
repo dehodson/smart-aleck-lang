@@ -2,7 +2,7 @@
 List of smart-aleck commands:
 
 a - push the string 'abcdefghijklmnopqrstuvwxyz' to the stack (lowercase letters)
-b -
+b - push stdin as list of lines
 c -
 d -
 e -
@@ -13,7 +13,7 @@ i - read an integer from stdin
 j -
 k -
 l - pop an int, push a list containing numbers from 0 to that int
-m -
+m - pop a, b push max(a, b)
 n - pop item n from the last of the stack and push back on
 o - print top item of stack without popping
 p - push pi (python's internal representation)
@@ -73,6 +73,7 @@ _ - flatten list
 " - string
 } - end conditional
 
+¦ - pop a, push a turned into a list
 ² - pop a, push squared a (will square lists)
 
 0123456789 - number literals

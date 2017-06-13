@@ -19,7 +19,7 @@ def take():
 	global hasRead
 
 	if not hasRead:
-		stdin = sys.stdin.read()
+		stdin = inputStream.read()
 		hasRead = True
 
 	return stdin.rstrip()
@@ -33,7 +33,7 @@ def takeInt():
 	output = 0
 
 	if not hasRead:
-		stdin = sys.stdin.read()
+		stdin = inputStream.read()
 		hasRead = True
 
 	char = stdin[pointer]
@@ -120,8 +120,12 @@ def toRoman(num):
 	return roman
 
 inputFile = "input.sa"
+inputStream = sys.stdin
 if len(sys.argv) > 1:
 	inputFile = sys.argv[1]
+
+	if(len(sys.argv) > 2):
+		inputStream = open(sys.argv[2], 'r')
 
 with open(inputFile, 'r') as f:
 	stack = []
@@ -161,6 +165,9 @@ with open(inputFile, 'r') as f:
 				if c == 'a':
 					stack.append('abcdefghijklmnopqrstuvwxyz')
 
+				elif c == 'b':
+					stack.append(take().split('\n'))
+
 				elif c == 'f':
 					end = 10
 					start = 0
@@ -178,6 +185,15 @@ with open(inputFile, 'r') as f:
 					if(len(stack) > 0):
 						num = int(stack.pop())
 						stack.append(range(0, num))
+
+				elif c == 'm':
+					if(len(stack) > 1):
+						a = stack.pop()
+						b = stack.pop()
+						if(type(a) in numerics and type(b) in numerics):
+							stack.append(max(a,b))
+						elif(type(a) == list and type(b) == list):
+							stack.append([max(i,j) for i,j in zip(a,b)])
 
 				elif c == 'n':
 					if(len(stack) > 1):
@@ -469,6 +485,14 @@ with open(inputFile, 'r') as f:
 							break
 						else:
 							stack[-1] += c
+
+				elif c == "\xa6": #broken bar
+					if(len(stack) > 0):
+						if(type(stack[-1]) == str):
+							stack.append(list(stack.pop()))
+						elif(type(stack[-1]) == list):
+							a = stack.pop()
+							stack.append([list(b) for b in a])
 
 				elif c == "\xb2": #square
 					if(len(stack) > 0):
