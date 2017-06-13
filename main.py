@@ -7,6 +7,7 @@ hasRead = False
 stdin = ""
 pointer = 0
 loopTypes = "TL"
+numerics = [int, long, float, complex]
 
 def show(string):
 	global hasPrinted
@@ -322,9 +323,9 @@ with open(inputFile, 'r') as f:
 								stack.append([str(i) + b for i in a])
 							elif(type(a) == str and type(b) == list):
 								stack.append([a + str(i) for i in b])
-							elif(type(a) == list and type(b) == int):
+							elif(type(a) == list and type(b) in numerics):
 								stack.append([int(i) + b for i in a])
-							elif(type(a) == int and type(b) == list):
+							elif(type(a) in numerics and type(b) == list):
 								stack.append([int(i) + a for i in b])
 						elif(type(a) == str or type(b) == str):
 							stack.append(str(a) + str(b))
@@ -344,14 +345,14 @@ with open(inputFile, 'r') as f:
 								stack.append([str(i).translate(None, b) for i in a])
 							elif(type(a) == str and type(b) == list):
 								stack.append([str(i).translate(None, a) for i in b])
-							elif(type(a) == list and type(b) == int):
+							elif(type(a) == list and type(b) in numerics):
 								stack.append([i - b for i in a])
-							elif(type(a) == int and type(b) == list):
+							elif(type(a) in numerics and type(b) == list):
 								stack.append([i - a for i in b])
 						elif(type(a) == str and type(b) == str):
 							stack.append(a.translate(None, b))
 						else:
-							stack.append(int(a)-int(b))
+							stack.append(a - b)
 					elif(len(stack) > 0):
 						if(type(stack[-1]) == str):
 							stack.append(stack.pop().translate(None, take()))
@@ -367,9 +368,9 @@ with open(inputFile, 'r') as f:
 								stack.append([int(i) * b for i in a])
 							elif(type(a) == str and type(b) == list):
 								stack.append([a * int(i) for i in b])
-							elif(type(a) == list and type(b) == int):
+							elif(type(a) == list and type(b) in numerics):
 								stack.append([i * b for i in a])
-							elif(type(a) == int and type(b) == list):
+							elif(type(a) in numerics and type(b) == list):
 								stack.append([i * a for i in b])
 						elif((type(a) == str or type(b) == str) and
 							(type(a) == int or type(b) == int)):
@@ -395,9 +396,9 @@ with open(inputFile, 'r') as f:
 						a = stack.pop()
 						b = stack.pop()
 						if(type(a) == list or type(b) == list):
-							if(type(a) == list and type(b) == int):
+							if(type(a) == list and type(b) in numerics):
 								stack.append([i % b for i in a])
-							elif(type(a) == int and type(b) == list):
+							elif(type(a) in numerics and type(b) == list):
 								stack.append([i % a for i in b])
 						else:
 							stack.append(a % b);
@@ -471,7 +472,7 @@ with open(inputFile, 'r') as f:
 
 				elif c == "\xfd": #square
 					if(len(stack) > 0):
-						if(type(stack[-1]) == int):
+						if(type(stack[-1]) in numerics):
 							a = stack.pop()
 							stack.append(a * a)
 						elif(type(stack[-1]) == list):

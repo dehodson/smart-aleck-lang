@@ -73,4 +73,7 @@ _ - flatten list
 " - string
 } - end conditional
 
+π - push pi (python's internal representation)
+² - pop a, push squared a (will square lists)
+
 0123456789 - number literals
